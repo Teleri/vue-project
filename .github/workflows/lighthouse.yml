@@ -1,0 +1,29 @@
+name: 'Lighthouse'
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: 'Install Node'
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.11
+        cache: 'yarn'
+        cache-dependency-path: '**/yarn.lock'
+    - name: 'Run Lighthouse CI'
+      run: |
+        yarn
+        yarn global add @lhci/cli@0.13.0
+        lhci autorun
