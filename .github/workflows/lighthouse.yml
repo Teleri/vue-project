@@ -5,11 +5,11 @@ on:
       - main
 
 jobs:
-  lighthouse:
+  lighthouse-ci:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
 
     steps:
