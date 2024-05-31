@@ -5,7 +5,7 @@ ci:
     numberOfRuns: 1
   upload:
     target: 'filesystem'
-    outputDir: './lighthouse'
+    outputDir: './lighthouse_reports'
   assert:
     assertions:
       'categories:performance': 'on'
