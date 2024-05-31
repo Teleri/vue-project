@@ -1,7 +1,7 @@
 ci:
   collect:
     url: ['http://localhost:5173']
-    startServerCommand: 'vite preview'
+    startServerCommand: 'vite'
   upload:
     target: 'temporary-public-storage'
   assert:
