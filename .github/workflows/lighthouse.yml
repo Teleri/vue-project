@@ -25,9 +25,9 @@ jobs:
     - name: 'Install Dependencies'
       run: |
         yarn
-        yarn add global @lhci/cli@0.13.0
     - name: 'Build app'
       run: yarn run build
     - name: 'Run Lighthouse CI'
       run: |
+        yarn global add @lhci/cli@0.13.0
         lhci autorun
