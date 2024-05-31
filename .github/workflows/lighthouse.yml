@@ -31,4 +31,4 @@ jobs:
       run: |
         yarn global add @lhci/cli@0.13.0
         lhci autorun
-        lhci upload --target=filesystem --outputDir='./lighthouse_reports'
+        lhci upload --target=filesystem --outputDir='/home/runner/work/${{ github.repository }}/lighthouse_reports'
