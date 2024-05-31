@@ -1,7 +1,7 @@
 ci:
   collect:
     url: ['http://localhost:5173']
-    startServerCommand: 'vite'
+    startServerCommand: 'yarn run preview'
   upload:
     target: 'temporary-public-storage'
   assert:
