@@ -27,7 +27,7 @@ jobs:
         npm install
         npm install -g @lhci/cli@0.13.0
     - name: 'Build app'
-      run: vite build
+      run: npm run build
     - name: 'Run Lighthouse CI'
       run: |
         lhci autorun
