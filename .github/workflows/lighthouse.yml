@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
+      contents: read
       pull-requests: write
 
     steps:
@@ -21,7 +21,7 @@ jobs:
       with:
         node-version: 20.11
         cache: 'yarn'
-        cache-dependency-path: '**/yarn.lock'
+        cache-dependency-path: '../yarn.lock'
     - name: 'Install Dependencies'
       run: |
         yarn
