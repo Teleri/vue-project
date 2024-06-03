@@ -32,14 +32,18 @@ jobs:
         yarn global add @lhci/cli@0.13.0
         lhci autorun > lighthouseci/results.txt
     - name: 'Post Lighthouse Output to PR'
-      uses: actions/github-script@v5
+      uses: actions/github-script@v6
+      if: always()
       with:
         script: |
-          const fs = require('fs');
-          const results = fs.readFileSync('lighthouseci/results.txt', 'utf8');
-          github.issues.createComment({
+          const name = '${{ github.workflow	}}';
+          const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+          const success = '${{ job.status }}' === 'success';
+          const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
+
+          await github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: results
-          });
+            body: body
+          })
