@@ -4,7 +4,8 @@ ci:
     startServerCommand: 'yarn run preview'
     numberOfRuns: 1
   upload:
-    target: 'temporary-public-storage'
+    target: 'filesystem'
+    outputDir: './lighthouseci'
   assert:
     assertions:
       'categories:performance': 'on'
