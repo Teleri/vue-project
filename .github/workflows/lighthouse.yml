@@ -31,7 +31,7 @@ jobs:
       run: |
         yarn global add @lhci/cli@0.13.0
         lhci autorun --quiet | tee lhci-output.txt
-        echo "::set-output name=lhci_output::$(cat lhci-output.txt)"
+        echo "{lhci_output}=$(cat lhci-output.txt)" >> $GITHUB_OUTPUT
       id: lighthouse_ci
     - name: 'Post Lighthouse Output to PR'
       uses: actions/github-script@v6
