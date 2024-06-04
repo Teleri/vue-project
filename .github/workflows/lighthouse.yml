@@ -31,8 +31,7 @@ jobs:
       id: lighthouse-ci
       run: |
         yarn global add @lhci/cli@0.13.0
-        LHCI_OUTPUT=$(lhci autorun)
-        echo "{lhci_output}= $LHCI_OUTPUT" >> $GITHUB_OUTPUT
+        echo "lhci_output=$(lhci autorun)\n" >> $GITHUB_OUTPUT
     - name: 'Post Lighthouse Output to PR'
       uses: thollander/actions-comment-pull-request@v2
       with:
