@@ -38,4 +38,4 @@ jobs:
     - name: 'Post Lighthouse Output to PR'
       uses: thollander/actions-comment-pull-request@v2
       with:
-        echo "✅  Configuration file found"
+        body: echo "✅  Configuration file found"
