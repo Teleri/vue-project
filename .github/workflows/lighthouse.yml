@@ -28,19 +28,12 @@ jobs:
     - name: 'Build app'
       run: yarn run build
     - name: 'Run Lighthouse CI'
+      id: lighthouse-ci
       run: |
         yarn global add @lhci/cli@0.13.0
-        lhci autorun --quiet | tee lhci-output.txt
-        echo "{\"lhci_output\":\"$(cat lhci-output.txt)\"}" >> $GITHUB_OUTPUT
-      id: lighthouse_ci
+        LHCI_OUTPUT=lhci autorun
+        echo "{lhci_output}= $LHCI_OUTPUT" >> $GITHUB_OUTPUT
     - name: 'Post Lighthouse Output to PR'
-      uses: actions/github-script@v6
-      if: always()
+      uses: thollander/actions-comment-pull-request@v2
       with:
-        script: |
-          await github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: ${{ steps.lighthouse_ci.outputs.lhci_output }}
-          })
+        echo "body : ${{ steps.lighthouse-ci.outputs.lhci_output }}"
