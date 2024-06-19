@@ -30,7 +30,7 @@ jobs:
       run: |
         yarn global add @lhci/cli@0.13.0
         lhci autorun
-        echo "| Metric | Target score | Actual score | Passed |" > $GITHUB_STEP_SUMMARY
+        echo "| Metric | Target score | Actual score | Passed |" >> $GITHUB_STEP_SUMMARY
         echo "|--------|--------------|--------------|--------|" >> $GITHUB_STEP_SUMMARY
         echo "| Performance | $(jq -r '.[] | select(.auditProperty=="performance").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="performance").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="performance").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> $GITHUB_STEP_SUMMARY
         echo "| - LCP | $(jq -r '.[] | select(.auditId=="largest-contentful-paint").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditId=="largest-contentful-paint").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditId=="largest-contentful-paint").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> $GITHUB_STEP_SUMMARY
@@ -42,10 +42,4 @@ jobs:
     - name: 'Lighthouse Report'
       uses: thollander/actions-comment-pull-request@v2
       with:
-        message: |
-          ## Lighthouse Report
-          ![Lighthouse Report](./lighthouseci/report/lighthouse-report.html)
-          <details>
-            <summary>Summary</summary>
-            ${{ steps.lighthouse-ci.outputs.stdout }}
-          </details>
+        message: ${{ steps.lighthouse-ci.outputs.stdout }}
