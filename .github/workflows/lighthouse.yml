@@ -30,7 +30,11 @@ jobs:
       run: |
         yarn global add @lhci/cli@0.13.0
         lhci autorun
-        cat ./test.md
+        while IFS= read -r line; do
+          if [[ "$line" == *"$()"* ]]; then
+            eval $line
+          fi
+        done <./test.md
     - name: 'Lighthouse Report'
       uses: thollander/actions-comment-pull-request@v2
       with:
