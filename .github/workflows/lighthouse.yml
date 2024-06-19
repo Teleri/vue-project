@@ -45,5 +45,5 @@ jobs:
       uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
-          "Lighthouse Report"
-          ${{ steps.lighthouse-ci.outputs.summary }}
+          Lighthouse Report
+          ${{ steps.lighthouse-ci.outputs }}
