@@ -14,6 +14,15 @@ jobs:
 
     outputs:
       results: ${{ steps.lighthouse-ci.outputs.results }}
+      header: ${{ steps.lighthouse-ci.outputs.header }}
+      separator: ${{ steps.lighthouse-ci.outputs.separator }}
+      performance: ${{ steps.lighthouse-ci.outputs.performance }}
+      lcp: ${{ steps.lighthouse-ci.outputs.lcp }}
+      fid: ${{ steps.lighthouse-ci.outputs.fid }}
+      cls: ${{ steps.lighthouse-ci.outputs.cls }}
+      accessibility: ${{ steps.lighthouse-ci.outputs.accessibility }}
+      best-practices: ${{ steps.lighthouse-ci.outputs.best-practices }}
+      seo: ${{ steps.lighthouse-ci.outputs.seo }}
 
     steps:
     - uses: actions/checkout@v4
@@ -33,8 +42,15 @@ jobs:
       run: |
         yarn global add @lhci/cli@0.13.0
         lhci autorun
-        echo "results=| Metric | Target score | Actual score | Passed |" >> "$GITHUB_OUTPUT"
-        echo "results+=|--------|--------------|--------------|--------|" >> "$GITHUB_OUTPUT"
+        echo "header=| Metric | Target score | Actual score | Passed |" >> "$GITHUB_OUTPUT"
+        echo "separator=|--------|--------------|--------------|--------|" >> "$GITHUB_OUTPUT"
+        echo "performance=| Performance | $(jq -r '.[] | select(.auditProperty=="performance").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="performance").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="performance").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> "$GITHUB_OUTPUT"
+        echo "lcp=| - LCP | $(jq -r '.[] | select(.auditId=="largest-contentful-paint").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditId=="largest-contentful-paint").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditId=="largest-contentful-paint").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> "$GITHUB_OUTPUT"
+        echo "fid=| - FID | $(jq -r '.[] | select(.auditId=="max-potential-fid").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditId=="max-potential-fid").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditId=="max-potential-fid").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> "$GITHUB_OUTPUT"
+        echo "cls=| - CLS | $(jq -r '.[] | select(.auditId=="cumulative-layout-shift").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditId=="cumulative-layout-shift").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditId=="cumulative-layout-shift").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> "$GITHUB_OUTPUT"
+        echo "accessibility=| Accessibility | $(jq -r '.[] | select(.auditProperty=="accessibility").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="accessibility").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="accessibility").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> "$GITHUB_OUTPUT"
+        echo "best-practices=| Best Practicies | $(jq -r '.[] | select(.auditProperty=="best-practices").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="best-practices").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="best-practices").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> "$GITHUB_OUTPUT"
+        echo "seo=| SEO | $(jq -r '.[] | select(.auditProperty=="seo").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="seo").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="seo").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> "$GITHUB_OUTPUT"
     - name: 'Lighthouse Report'
       uses: thollander/actions-comment-pull-request@v2
       with:
