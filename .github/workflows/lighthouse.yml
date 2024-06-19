@@ -56,4 +56,12 @@ jobs:
       with:
         message: |
           Lighthouse Report
-          ${{ steps.lighthouse-ci.outputs.results }}
+          ${{ steps.lighthouse-ci.outputs.header }}
+          ${{ steps.lighthouse-ci.outputs.separator }}
+          ${{ steps.lighthouse-ci.outputs.performance }}
+          ${{ steps.lighthouse-ci.outputs.lcp }}
+          ${{ steps.lighthouse-ci.outputs.fid }}
+          ${{ steps.lighthouse-ci.outputs.cls }}
+          ${{ steps.lighthouse-ci.outputs.accessibility }}
+          ${{ steps.lighthouse-ci.outputs.best-practices }}
+          ${{ steps.lighthouse-ci.outputs.seo }}
