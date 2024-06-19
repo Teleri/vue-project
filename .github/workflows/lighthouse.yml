@@ -46,4 +46,4 @@ jobs:
       with:
         message: |
           Lighthouse Report
-          ${{ steps.lighthouse-ci.outputs }}
+          ${{ steps.lighthouse-ci.outputs.GITHUB_STEP_SUMMARY }}
