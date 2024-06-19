@@ -30,6 +30,7 @@ jobs:
       run: |
         yarn global add @lhci/cli@0.13.0
         lhci autorun
+        echo "start" >> $GITHUB_STEP_SUMMARY
         echo "| Metric | Target score | Actual score | Passed |" >> $GITHUB_STEP_SUMMARY
         echo "|--------|--------------|--------------|--------|" >> $GITHUB_STEP_SUMMARY
         echo "| Performance | $(jq -r '.[] | select(.auditProperty=="performance").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="performance").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="performance").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> $GITHUB_STEP_SUMMARY
@@ -39,6 +40,7 @@ jobs:
         echo "| Accessibility | $(jq -r '.[] | select(.auditProperty=="accessibility").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="accessibility").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="accessibility").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> $GITHUB_STEP_SUMMARY
         echo "| Best Practicies | $(jq -r '.[] | select(.auditProperty=="best-practices").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="best-practices").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="best-practices").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> $GITHUB_STEP_SUMMARY
         echo "| SEO | $(jq -r '.[] | select(.auditProperty=="seo").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="seo").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="seo").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> $GITHUB_STEP_SUMMARY
+        echo "end" >> $GITHUB_STEP_SUMMARY
     - name: 'Lighthouse Report'
       uses: thollander/actions-comment-pull-request@v2
       with:
