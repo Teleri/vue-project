@@ -12,6 +12,9 @@ jobs:
       contents: read
       pull-requests: write
 
+    outputs:
+      results: ${{ steps.lighthouse-ci.outputs.results }}
+
     steps:
     - uses: actions/checkout@v4
       with:
@@ -41,9 +44,10 @@ jobs:
         echo "| Best Practicies | $(jq -r '.[] | select(.auditProperty=="best-practices").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="best-practices").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="best-practices").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> $GITHUB_STEP_SUMMARY
         echo "| SEO | $(jq -r '.[] | select(.auditProperty=="seo").expected' .lighthouseci/assertion-results.json) | $(jq -r '.[] | select(.auditProperty=="seo").actual' .lighthouseci/assertion-results.json) | $([ $(jq -r '.[] | select(.auditProperty=="seo").passed' .lighthouseci/assertion-results.json) ] && echo "🟩" || echo "🟥") |" >> $GITHUB_STEP_SUMMARY
         echo "end" >> $GITHUB_STEP_SUMMARY
+        echo
     - name: 'Lighthouse Report'
       uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
           Lighthouse Report
-          ${{ steps.lighthouse-ci.outputs.GITHUB_STEP_SUMMARY }}
+          ${{ steps.lighthouse-ci.outputs.results }}
